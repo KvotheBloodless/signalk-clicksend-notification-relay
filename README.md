@@ -4,7 +4,7 @@ Signalk-node-server plugin that pushes listens for change of state in SignalK no
 
 # About ClickSend
 
-ClickSend (no affiliation), is a company that provides messaging gateway as a service. This plugin uses it to forward your notifications to your mobile phone via SMS message.
+ClickSend (no affiliation with the author or this software), is a company that provides messaging gateway as a service. This plugin uses it to forward your notifications to your mobile phone via SMS message.
 ClickSend is a commercial service and you will need to pay a fee. The pre-paid option is quite suitable for this purpose with long expiry terms. You can get started for free however, you will be given a little credit for testing when you sign up.
 
 # Installation
