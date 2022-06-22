@@ -1,6 +1,6 @@
 {
   "name": "signalk-clicksend-notification-relay",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SignalK Clicksend SMS Notification Relay",
   "main": "index.js",
   "scripts": {
