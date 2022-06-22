@@ -1,0 +1,23 @@
+{
+  "name": "signalk-clicksend-notification-relay",
+  "version": "1.0.0",
+  "description": "SignalK Clicksend SMS Notification Relay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KvotheBloodless/signalk-clicksend-notification-relay.git"
+  },
+  "keywords": [
+    "signalk-node-server-plugin",
+    "signalk-category-notifications"
+  ],
+  "author": "Paul Willems",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KvotheBloodless/signalk-clicksend-notification-relay/issues"
+  },
+  "homepage": "https://github.com/KvotheBloodless/signalk-clicksend-notification-relay#readme"
+}
