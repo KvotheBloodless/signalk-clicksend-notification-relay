@@ -17,13 +17,27 @@ module.exports = function (app) {
 
     name = app.getSelfPath('name');
 
+    var subscribes = [{
+      path: `notifications.*`,
+      policy: 'instant'
+    }];
+    if(config.notifications.length != 0)
+      subscribes = config.notifications.map(n => {
+
+        const subscribe = {};
+
+        subscribe.path = `notifications.${n.path}`;
+        subscribe.policy = 'instant';
+
+        return subscribe;
+      });
+
     let command = {
-      context: "vessels.self",
-      subscribe: [{
-        path: "notifications.*",
-        policy: 'instant'
-      }]
+      context: 'vessels.self',
+      subscribe: subscribes
     };
+
+    app.debug('Subscribe command: ' + JSON.stringify(command, null, 2));
 
     app.subscriptionmanager.subscribe(
       command,
@@ -32,7 +46,7 @@ module.exports = function (app) {
       got_delta
     );
 
-    app.debug('Plugin started');
+    app.debug('Plugin started with config: ' + JSON.stringify(config, null, 2));
   };
 
   function subscription_error(err) {
@@ -61,32 +75,40 @@ module.exports = function (app) {
 
             last_states[v.path] = v.value.state;
 
-            var message = `State of ${v.path} toggled to [${v.value.state}] - ${v.value.message}`;
-            var numbers = config.numbers.map(e => e.number).join(',');
+            var watchedLevels = ['normal', 'warn', 'alert', 'alarm', 'emergency'];
 
-            const options = {
-              hostname: 'api-mapper.clicksend.com',
-              port: 443,
-              path: `/http/v2/send.php?method=http&username=${encodeURIComponent(config.api_username)}&key=${encodeURIComponent(config.api_key)}&to=${encodeURIComponent(numbers)}&message=${encodeURIComponent(message)}&senderid=${encodeURIComponent(name)}`,
-              method: 'GET',
-            };
+            if(config.notifications.length != 0 && config.notifications.filter(n => v.path == `notifications.${n.path}`) != 'undefined' && config.notifications.filter(n => v.path == `notifications.${n.path}`)[0].levels.length != 0)
+              watchedLevels = config.notifications.filter(n => v.path == `notifications.${n.path}`)[0].levels;
 
-            const req = https.request(options, res => {
+            if(watchedLevels.includes(v.value.state)) {
 
-              app.debug(`Status code from ClickSend request: ${res.statusCode}`);
+              var message = `State of ${v.path} toggled to [${v.value.state}] - ${v.value.message}`;
+              var numbers = config.numbers.map(e => e.number).join(',');
 
-              res.on('data', data => {
+              const options = {
+                hostname: 'api-mapper.clicksend.com',
+                port: 443,
+                path: `/http/v2/send.php?method=http&username=${encodeURIComponent(config.api_username)}&key=${encodeURIComponent(config.api_key)}&to=${encodeURIComponent(numbers)}&message=${encodeURIComponent(message)}&senderid=${encodeURIComponent(name)}`,
+                method: 'GET',
+              };
 
-                app.debug(`Response from ClickSend request: ${data}`);
+              const req = https.request(options, res => {
+
+                app.debug(`Status code from ClickSend request: ${res.statusCode}`);
+
+                res.on('data', data => {
+
+                  app.debug(`Response from ClickSend request: ${data}`);
+                });
               });
-            });
 
-            req.on('error', error => {
+              req.on('error', error => {
 
-              app.error(`Error from ClickSend request: ${error}`);
-            });
+                app.error(`Error from ClickSend request: ${error}`);
+              });
 
-            req.end();
+              req.end();
+            }
           }
         }
       });
@@ -129,6 +151,37 @@ module.exports = function (app) {
               type: 'string',
               title: 'Number',
               description: 'Full mobile number including country code - eg: +61400111222'
+            }
+          }
+        }
+      },
+      notifications: {
+        type: 'array',
+        title: 'Notification',
+        description: 'Which notifications specifically do you want to be notified for? If none are specified, you will be notified for all state changes of all notification paths.',
+        items: {
+          type: 'object',
+          required: ['path'],
+          properties: {
+            path: {
+              type: 'string',
+              title: 'Notification path',
+              description: 'The part that comes after \'notification.\' eg: navigation.anchor'
+            },
+            levels: {
+              type: 'array',
+              title: 'Notification levels',
+              description: 'Which notification levels do you want to be notified for? If none are specified, you will be notified for all level changes.',
+              items: {
+                type: 'string',
+                enum: [
+                  'normal',
+                  'warn',
+                  'alert',
+                  'alarm',
+                  'emergency'
+                ]
+              }
             }
           }
         }

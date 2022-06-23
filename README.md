@@ -20,4 +20,6 @@ Go to your ClickSend dashboard, navigate to `Developer` -> `Api Credentials` and
 
 Navigate to http://localhost:3000/admin/#/serverConfiguration/plugins/signalk-clicksend-notification-relay, and enter your ClickSend username and API key. Then add the phone numbers at which you would like to receive notifcation SMS.
 
+You can leave the Notifications section empty if you want an SMS for all notification.* paths and all states (this can get expensive). Ideally, you should configure which notification paths you are interested in and which levels... For example notifications.navigation.anchor normal and emergency.
+
 That's it.
