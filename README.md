@@ -18,6 +18,10 @@ signalk-clicksend-notification-relay
 
 # Configuration
 
+<p align="center">
+<img align="right" src="config.png">
+</p>
+
 Go to your ClickSend dashboard, navigate to `Developer` -> `Api Credentials` and take note of your username and API key. If no key is available, you can create one.
 
 Navigate to http://localhost:3000/admin/#/serverConfiguration/plugins/signalk-clicksend-notification-relay, and enter your ClickSend username and API key. Then add the phone numbers at which you would like to receive notifcation SMS.
