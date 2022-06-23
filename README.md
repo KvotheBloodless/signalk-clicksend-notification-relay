@@ -18,9 +18,7 @@ signalk-clicksend-notification-relay
 
 # Configuration
 
-<p align="center">
-<img align="right" src="config2.png">
-</p>
+<img align="left" src="config2.png">
 
 Go to your ClickSend dashboard, navigate to `Developer` -> `Api Credentials` and take note of your username and API key. If no key is available, you can create one.
 
