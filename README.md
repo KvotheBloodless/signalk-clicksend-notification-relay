@@ -1,4 +1,4 @@
-<img align="right" width="100" height="250" src="screenshot.jpg">
+<img align="right" width="150" height="400" src="screenshot.jpg">
 
 # signalk-clicksend-notification-relay
 
