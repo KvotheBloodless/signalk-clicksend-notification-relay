@@ -1,3 +1,5 @@
+<img align="right" width="100" height="250" src="screenshot.jpg">
+
 # signalk-clicksend-notification-relay
 
 Signalk-node-server plugin that pushes listens for change of state in SignalK notifications and sends the updates via SMS gateway ClickSend https://www.clicksend.com. Particularly useful to keep an eye on your boat when you are not aboard. The author created this plugin to enable remote notification of anchor dragging emergencies.
